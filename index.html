@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Styles for the review form */
+        .review-form {
+            margin-top: 20px;
+        }
+
+        #rating {
+            width: 50px;
+        }
+
+        #review {
+            width: 100%;
+            height: 100px;
+        }
+
+        #submit {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Additional styling for product information */
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+
+        /* Styling for rating stars */
+        .star {
+            font-size: 24px;
+            color: #f0c419;
+            cursor: pointer;
+        }
+
+        .selected {
+            color: #ffcc00;
+        }
+    </style>
+    <title>Eco-Conscious Product Reviews</title>
+</head>
+
+<body>
+    <h1>Eco freindly products</h1>
+    <p>Our eco-friendly products are designed with sustainability in mind, offering a range of benefits for both you and
+        the environment. Made from renewable or recycled materials, these products are crafted to minimize their carbon
+        footprint and reduce waste. By choosing eco-friendly options, you can make a positive impact on the planet while
+        enjoying high-quality and innovative solutions for your daily needs.</p>
+    <!-- User reviews section -->
+    <div id="reviews"></div>
+    <!-- Review form -->
+    <div class="review-form">
+        <label for="rating">Rating (1-5):</label>
+        <input type="number" id="rating" min="1" max="5" placeholder="Rating">
+
+        <label for="review">Write your review:</label>
+        <textarea id="review" placeholder="Write your review"></textarea>
+
+        <button id="submit">Submit Review</button>
+    </div>
+    <script>
+        const stars = document.querySelectorAll(".star");
+        const rating = document.getElementById("rating");
+        const reviewText = document.getElementById("review");
+        const submitBtn = document.getElementById("submit");
+        const reviewsContainer = document.getElementById("reviews");
+
+        stars.forEach((star) => {
+            star.addEventListener("click", () => {
+                const value = parseInt(star.getAttribute("data-value"));
+                rating.innerText = value;
+                // Add selected class to clicked star
+                stars.forEach((s) => s.classList.remove("selected"));
+                star.classList.add("selected");
+            });
+        });
+
+        submitBtn.addEventListener("click", () => {
+            const review = reviewText.value;
+            const userRating = parseInt(rating.innerText);
+            if (!userRating || !review) {
+                alert("Please select a rating and provide a review before submitting.");
+                return;
+            }
+            // Create a new review element and append it to the reviews container
+            const reviewElement = document.createElement("div");
+            reviewElement.classList.add("review");
+            reviewElement.innerHTML = `<p><strong>Rating: ${userRating}/5</strong></p><p>${review}</p>`;
+            reviewsContainer.appendChild(reviewElement);
+            // Reset styles after submitting
+            reviewText.value = "";
+            rating.innerText = "0";
+            stars.forEach((s) => s.classList.remove("selected"));
+        });
+    </script>
+</body>
+
+</html>
